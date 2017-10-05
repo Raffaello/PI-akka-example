@@ -1,0 +1,16 @@
+language: scala
+scala:
+  - 2.12.2
+
+# safelist
+branches:
+  only:
+  - master
+
+sudo: false
+jdk:
+    - openjdk8
+cache:
+  directories:
+    - '$HOME/.ivy2/cache'
+    - '$HOME/.sbt/boot/'
