@@ -2,10 +2,17 @@ package Actors
 
 import Messages.{Result, Work}
 import akka.actor.Actor
+import akka.event.Logging
 
 import scala.annotation.tailrec
 
-class Worker extends Actor {
+class Worker extends Actor  {
+  val log = Logging(context.system, this)
+
+  override def preStart(): Unit = {
+    log.debug("Worker Starting")
+  }
+
   def calculatePiFor(start: Int, nElements: Int): Double = {
     @tailrec
     def loop(acc: Double, n: Int, end: Int): Double = {
@@ -18,6 +25,7 @@ class Worker extends Actor {
 
   override def receive: Actor.Receive = {
     case Work(start, nElems) =>
+      log.debug(s"Start Worker with $start and $nElems")
       sender ! Result(calculatePiFor(start, nElems))
   }
 }
