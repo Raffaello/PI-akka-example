@@ -21,10 +21,10 @@ class WorkerTest extends TestKit(ActorSystem("PI-akka")) with ImplicitSender wit
   "Worker actor" must {
     "compute correctly the summation" in {
       //      import Actors.Worker
-      summationTestCase(0, 1, 4)
+      summationTestCase(0, 1, 1)
     }
     "k=3" in {
-      summationTestCase(0,3,4.0*(1.0-1.0/3.0+1.0/5.0))
+      summationTestCase(0,3,1.0-1.0/3.0+1.0/5.0)
     }
   }
 }

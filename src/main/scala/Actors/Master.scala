@@ -20,7 +20,7 @@ class Master(nWorkers: Int, nMesagges: Int, nElements: Int, listener: ActorRef) 
       computedPi += value
       nResults += 1
       if (nResults == nMesagges) {
-        listener ! PiApproximation(computedPi, (System.currentTimeMillis - startTime).millis)
+        listener ! PiApproximation(4.0 * computedPi, (System.currentTimeMillis - startTime).millis)
         context.stop(self)
       }
     }

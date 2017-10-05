@@ -9,7 +9,7 @@ class Worker extends Actor {
   def calculatePiFor(start: Int, nElements: Int): Double = {
     @tailrec
     def loop(acc: Double, n: Int, end: Int): Double = {
-      if (n >= end) 4.0 * acc
+      if (n >= end) acc
       else loop(acc + (1 - (n % 2) * 2) / (2.0 * n + 1), n + 1, end)
     }
 
