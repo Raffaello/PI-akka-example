@@ -13,3 +13,8 @@ We are using the [Leibniz](https://en.wikipedia.org/wiki/Leibniz_formula_for_%CF
 
 ![formula](http://latex.codecogs.com/gif.latex?%5Csum_%7Bn%3D0%7D%5E%7Bn%20%5Cto%20%5Cinfty%7D%5Cfrac%7B%28-1%29%5En%7D%7B2n%2B1%7D%20%3D%20%5Cfrac%7B%5Cpi%7D%7B4%7D%5CRightarrow%204%2A%5Csum_%7Bn%3D0%7D%5E%7Bn%20%5Cto%20%5Cinfty%7D%5Cfrac%7B%28-1%29%5En%7D%7B2n%2B1%7D%20%3D%20%5Cpi)
 
+### Improvements
+
+- Calculating PI/4 and at the end it will be computed times 4
+- Added Worker Akka-Unit testing
+- using `application.conf` for the parameters instead of hard-coding them
