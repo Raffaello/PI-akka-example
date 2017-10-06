@@ -6,16 +6,27 @@ object Pi extends App {
   val system = ActorSystem("PI-akka")
 
   def calculate(nWorkers: Int, nElements: Int, nMessages: Int): Unit = {
+    require(nElements < nMessages)
+    require(nElements > 0 && nMessages > 0 && nWorkers > 0)
+
     val listener = system.actorOf(Props[Listener], "PI-listener")
     val master = system.actorOf(Props(new Master(nWorkers, nMessages, nElements, listener)), "PI-master")
 
     master ! Calculate
   }
 
-  val config = system.settings.config
-  calculate(
-    config.getInt("PI-akka.nr-of-workers"),
-    config.getInt("PI-akka.nr-of-elements"),
-    config.getInt("PI-akka.nr-of-messages")
-  )
+  try {
+    val config = system.settings.config
+    calculate(
+      config.getInt("PI-akka.nr-of-workers"),
+      config.getInt("PI-akka.nr-of-elements"),
+      config.getInt("PI-akka.nr-of-messages")
+    )
+  } catch {
+    case e : Exception => {
+      system.log.error("There is no Fault tolerance available for this actor system!")
+      system.log.error(e.getMessage.toString)
+      system.terminate()
+    }
+  }
 }

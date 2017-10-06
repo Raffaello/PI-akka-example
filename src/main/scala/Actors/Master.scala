@@ -1,10 +1,13 @@
 package Actors
 
 import Messages.{Calculate, PiApproximation, Result, Work}
-import akka.actor.{Actor, ActorRef, Props}
+import akka.actor.SupervisorStrategy.Stop
+import akka.actor.{Actor, ActorRef, AllForOneStrategy, Props, SupervisorStrategy}
 import akka.event.Logging
+import akka.japi.pf.DeciderBuilder
 import akka.routing.FromConfig
 
+import scala.language.postfixOps
 import scala.concurrent.duration._
 
 class Master(nWorkers: Int, nMesagges: Int, nElements: Int, listener: ActorRef) extends Actor {
@@ -16,7 +19,7 @@ class Master(nWorkers: Int, nMesagges: Int, nElements: Int, listener: ActorRef) 
 
   override def receive = {
     case Calculate => {
-      for (i <- 0 until nMesagges) workerRouter ! Work(i*nElements, nElements)
+      for (i <- 0 until nMesagges) workerRouter ! Work(i * nElements, nElements)
     }
     case Result(value) => {
       computedPi += value
@@ -28,4 +31,6 @@ class Master(nWorkers: Int, nMesagges: Int, nElements: Int, listener: ActorRef) 
       }
     }
   }
+
+  override def supervisorStrategy: SupervisorStrategy = SupervisorStrategy.stoppingStrategy
 }
